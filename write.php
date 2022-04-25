@@ -43,10 +43,5 @@
         </p>
         <input type="submit" value="글 게시하기">
     </form>
-    <form>
-
-    </form>
-    
-
 </body>
 </html>

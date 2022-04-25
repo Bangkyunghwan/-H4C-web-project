@@ -1,7 +1,4 @@
 <?php
-    
-
-    
     session_start();
     if(!isset($_SESSION['id'])){
         header('Location: ./login.php?notLogin');
@@ -26,6 +23,8 @@
     $statement = $pdo -> prepare($sql);
     $statement -> execute([':idx' => $idx]);
     $article = $statement -> fetchAll();
+    
+    // 없는 글을 불러오려하는 경우 차단 (뒤로가기 막기 기능이 안돼서 추가한 기능임.)
     if(empty($article)){
         header('Location: ./list.php?nonexistArticle');
     }
@@ -64,6 +63,8 @@
     <span><?php echo $article[0]['date']?></span><hr>
     <p><?php echo $article[0]['content']?></p>
     <?php echo "<button onclick=\"location.href='delete.php?idx=$idx'\">삭제</button>"?>
+    <?php echo "<button onclick=\"location.href='edit.php?idx=$idx'\">수정</button>"?>
+    
     <a href="./list.php">게시판으로 돌아가기</a>
 
 </body>
