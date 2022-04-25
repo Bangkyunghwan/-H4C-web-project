@@ -13,6 +13,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .logout{
+            position: fixed;
+            top: 1em;
+            right: 1em;
+        }
+    </style>
 </head>
 <body>
 <?php  
@@ -25,6 +32,7 @@
       }
     ?>
     <h2>글 작성 페이지</h2>
+    <a class="logout" href="logout.php">로그 아웃</a>
     <form action="./writeprocess.php" method="POST">
         <label>
             글 제목: <input type="text" name="title"><br>
@@ -38,7 +46,7 @@
     <form>
 
     </form>
-    <a href="logout.php">로그 아웃</a>
+    
 
 </body>
 </html>
