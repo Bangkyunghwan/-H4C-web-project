@@ -50,6 +50,15 @@
     <?php
       }
     ?>
+    <?php  
+      if(isset($_GET['logout'])){
+    ?>
+        <script>
+            alert('로그아웃 되었습니다.')
+        </script>
+    <?php
+      }
+    ?>
     <h1>로그인 페이지</h1>
     <form action="./loginprocess.php" method="POST">
         <label>
