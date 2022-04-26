@@ -4,6 +4,18 @@
         header('Location: ./login.php?notLogin');
         exit;
     }
+    if(empty($_GET['search'])){
+        header('Location: ./list.php?emptyError');
+    }
+
+
+    $type = "'%{$_GET['type']}%'";
+    $standard = $_GET['standard'];
+    $search = "'%{$_GET['search']}%'";
+
+    // echo $type;
+    // echo $standard;
+    // echo $search;
 
     // 데이터베이스 연결
     require 'dbconfig.php';
@@ -12,21 +24,33 @@
     try{
         $pdo = new PDO($dsn, $user, $password);
         
+        
     }catch(PDOException $e){
         echo $e -> getMessage();
     }
 
 
-    // 데이터베이스에서 글 목록 가져오기
-    $sql = 'SELECT * FROM list';
+    if($_GET['type'] === "모든"){
+        $query = "SELECT * FROM list WHERE $standard LIKE $search";
+        if($_GET['standard'] === "all"){
+            $query = "SELECT * FROM list WHERE title LIKE $search OR content LIKE $search";
+        }
+    }else{
+        $query = "SELECT * FROM list WHERE type LIKE $type AND $standard LIKE $search";
+        if($_GET['standard'] === "all"){
+            $query = "SELECT * FROM list WHERE type LIKE $type AND (title LIKE $search OR content LIKE $search)";
+        }
+    }
     
-    $statement = $pdo -> prepare($sql);
+
+    $statement = $pdo -> prepare($query);
     $statement -> execute();
-    $list = $statement -> fetchAll(); 
+
+
+    $list = $statement -> fetchAll();
+
+    
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,6 +87,11 @@
             top: 1em;
             right: 1em;
         }
+        .goList{
+            position: fixed;
+            top: 1em;
+            right: 6em;
+        }
 
     
         
@@ -70,55 +99,9 @@
 </head>
 <body>
     
-    <?php  
-      if(isset($_GET['deleteSuccess'])){
-    ?>
-        <script>
-            alert('성공적으로 삭제되었습니다.')
-        </script>
-    <?php
-      }
-    ?>
-    <?php  
-      if(isset($_GET['nonexistArticle'])){
-    ?>
-        <script>
-            alert('존재하지 않는 글입니다.')
-        </script>
-    <?php
-      }
-    ?>
-    <?php  
-      if(isset($_GET['emptyError'])){
-    ?>
-        <script>
-            alert('검색 키워드를 입력해주세요.')
-        </script>
-    <?php
-      }
-    ?>
-
-    <h1>자유게시판</h1>
+    <h1>검색 결과</h1>
     <a class="logout" href="logout.php">로그 아웃</a>
-    <h2><?php echo $_SESSION['id']?>님 환영합니다.</h2>
-    <a href="./write.php">글 쓰기</a>
-    <form action="search.php">
-        <select name="type">
-            <option value="모든">모든게시판</option>
-            <option value="자유">자유게시판</option>
-            <option value="질문">질문게시판</option>
-            <option value="홍보">홍보게시판</option>
-        </select>
-        <select name="standard">
-            <option value="all">전체</option>
-            <option value="title">제목</option>
-            <option value="content">내용</option>
-        </select>
-        <input type="search" name="search">
-         <input type="submit" value="검색">
-    </form>
-    
-
+    <a class="goList" href="./list.php">게시판으로 돌아가기</a>
     <?php 
         echo "<table>
         <tr>
@@ -141,6 +124,3 @@
         }
         echo "</table>";
     ?>
-
-</body>
-</html>

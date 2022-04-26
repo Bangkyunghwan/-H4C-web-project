@@ -46,6 +46,14 @@
         <label>
             글 제목: <input type="text" name="title"><br>
         </label>
+        <label>
+            게시글 유형 : 
+            <select name="type">
+                <option value="자유">자유(기타)</option>
+                <option value="질문">질문</option>
+                <option value="홍보">홍보</option>
+            </select>
+        </label> 
         <p>
             본 내용<br>
             <textarea name="content" rows="30" cols="50"></textarea>

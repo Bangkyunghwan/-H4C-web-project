@@ -43,6 +43,11 @@
             top: 1em;
             right: 1em;
         }
+        .goList{
+            position: fixed;
+            top: 1em;
+            right: 6em;
+        }
     </style>
 </head>
 <body>
@@ -57,6 +62,7 @@
     ?>
     <h2><?php echo $article[0]['title']?></h2>
     <a class="logout" href="logout.php">로그 아웃</a>
+    <a class="goList" href="./list.php">게시판으로 돌아가기</a>
     <span><?php echo $article[0]['writer']?></span>
     <span><?php echo $article[0]['date']?></span><hr>
     <?php  
@@ -70,7 +76,7 @@
     <?php echo "<button onclick=\"location.href='delete.php?idx=$idx'\">삭제</button>"?>
     <?php echo "<button onclick=\"location.href='edit.php?idx=$idx'\">수정</button>"?>
     
-    <a href="./list.php">게시판으로 돌아가기</a>
+    
 
 </body>
 </html>

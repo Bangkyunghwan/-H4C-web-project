@@ -10,6 +10,7 @@
     $content = htmlspecialchars($_POST['content']);
     $writer = htmlspecialchars($_SESSION['id']);
     $date = date('Y-m-d H:i:s');
+    $type = $_POST['type'];
 
 
     // 글 제목과 글 내용이 비어있는지 확인
@@ -59,12 +60,13 @@
     
  
      // 게시글 데이터베이스에 저장
-    $sql = "INSERT INTO list(writer, title, content, image ,date) VALUES(:writer, :title, :content, :image, :date)";
+    $sql = "INSERT INTO list(writer, title, content, type, image ,date) VALUES(:writer, :title, :content, :type, :image, :date)";
     $statement = $pdo->prepare($sql);
     $statement->execute([
         ':writer' => $writer,
         ':title' => $title,
         ':content' => $content,
+        ':type' => $type,
         ':image' => $uploadFile,
         ':date' => $date
     ]);
