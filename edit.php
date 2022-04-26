@@ -52,7 +52,7 @@
     <?php
       }
     ?>
-    <form action=<?php echo "./editproccess.php?idx=$idx"?> method="POST">
+    <form action=<?php echo "./editproccess.php?idx=$idx"?> method="POST" enctype="multipart/form-data">
         <h2><?php echo $article[0]['title']?></h2>
         
         <span><?php echo $article[0]['writer']?></span>
@@ -61,6 +61,9 @@
             본 내용<br>
             <textarea name="content" rows="30" cols="50"><?php echo $content?></textarea>
         </p>
+        <p>
+            새 이미지 업로드 : <input type="file" name="image"></input>
+        </p> 
         <input type="submit" value="수정 완료">
     </form>
       <a href=<?php echo "./article.php?idx=$idx"?>>수정 취소</a>

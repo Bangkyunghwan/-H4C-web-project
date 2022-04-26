@@ -22,7 +22,7 @@
     </style>
 </head>
 <body>
-<?php  
+    <?php  
       if(isset($_GET['emptyError'])){
     ?>
         <script>
@@ -31,9 +31,18 @@
     <?php
       }
     ?>
+    <?php  
+      if(isset($_GET['fileError'])){
+    ?>
+        <script>
+            alert('파일 업로드에 실패하였습니다.')
+        </script>
+    <?php
+      }
+    ?>
     <h2>글 작성 페이지</h2>
     <a class="logout" href="logout.php">로그 아웃</a>
-    <form action="./writeprocess.php" method="POST">
+    <form action="./writeprocess.php" method="POST" enctype="multipart/form-data">
         <label>
             글 제목: <input type="text" name="title"><br>
         </label>
@@ -41,7 +50,11 @@
             본 내용<br>
             <textarea name="content" rows="30" cols="50"></textarea>
         </p>
+        <p>
+            이미지 업로드 : <input type="file" name="image"></input>
+        </p>     
         <input type="submit" value="글 게시하기">
     </form>
+    <a href="./list.php">게시판으로 돌아가기</a>
 </body>
 </html>

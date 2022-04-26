@@ -18,6 +18,32 @@
         exit;
     }
 
+    // 업로드된 파일이 있는 지 확인후 파일 처리 과정
+    if(!empty($_FILES['image']['name'])){
+        $name = basename($_FILES['image']['name']);
+
+        $fileArray = explode('.', $name);
+        $ext = end($fileArray);
+        $newFileName = date(time()).'.'.$ext;
+
+        $imageExt = ['png', 'jpg', 'jpeg', 'gif', 'PNG', "JPG", 'JPEG', 'GIF'];
+
+        $uploadDir = "C:\Bitnami\wampstack-8.1.4-0\apache2\htdocs\board\upload\\";
+        $uploadFile = $uploadDir . $newFileName;
+        
+
+        if(!in_array($ext, $imageExt)){
+            header("Location: ./write.php?fileError");
+            exit;
+        }
+    
+
+        if(!move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)){
+            header("Location: ./write.php?fileError");
+            exit;
+        }
+    }
+
      // 데이터베이스 연결
      require 'dbconfig.php';
      $dsn = "mysql:host=$host;dbname=$db;charset=UTF8";
@@ -33,16 +59,19 @@
     
  
      // 게시글 데이터베이스에 저장
-     $sql = "INSERT INTO list(writer, title, content,  date) VALUES(:writer, :title, :content, :date)";
-     $statement = $pdo->prepare($sql);
-     $statement->execute([
-         ':writer' => $writer,
-         ':title' => $title,
-         ':content' => $content,
-         ':date' => $date
-     ]);
+    $sql = "INSERT INTO list(writer, title, content, image ,date) VALUES(:writer, :title, :content, :image, :date)";
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        ':writer' => $writer,
+        ':title' => $title,
+        ':content' => $content,
+        ':image' => $uploadFile,
+        ':date' => $date
+    ]);
 
     header('Location: ./list.php');
+    exit;
+    
 
 
 ?>

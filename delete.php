@@ -31,7 +31,6 @@
         $statement = $pdo -> prepare($sql);
         $statement -> execute([':idx' => $idx]);
         header('Location: ./list.php?deleteSuccess');
-
         exit;
         
     }else{

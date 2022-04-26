@@ -28,8 +28,6 @@
     if(empty($article)){
         header('Location: ./list.php?nonexistArticle');
     }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -61,6 +59,13 @@
     <a class="logout" href="logout.php">로그 아웃</a>
     <span><?php echo $article[0]['writer']?></span>
     <span><?php echo $article[0]['date']?></span><hr>
+    <?php  
+      if(!empty($article[0]['image'])){
+        $imagePathArray = explode('\\', $article[0]['image']);
+        $image = end($imagePathArray);
+        echo "<img src=./upload/$image>";
+      }
+    ?>
     <p><?php echo $article[0]['content']?></p>
     <?php echo "<button onclick=\"location.href='delete.php?idx=$idx'\">삭제</button>"?>
     <?php echo "<button onclick=\"location.href='edit.php?idx=$idx'\">수정</button>"?>
