@@ -9,13 +9,11 @@
     }
 
 
+    // 검색 기준 2개와 검색어 가져온 후 쿼리문에 삽입할 수 있는 형태로 변환
     $type = "'%{$_GET['type']}%'";
     $standard = $_GET['standard'];
     $search = "'%{$_GET['search']}%'";
 
-    // echo $type;
-    // echo $standard;
-    // echo $search;
 
     // 데이터베이스 연결
     require 'dbconfig.php';
@@ -29,7 +27,7 @@
         echo $e -> getMessage();
     }
 
-
+    // 검색 기준에 따른 쿼리문 작성
     if($_GET['type'] === "모든"){
         $query = "SELECT * FROM list WHERE $standard LIKE $search";
         if($_GET['standard'] === "all"){

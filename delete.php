@@ -25,11 +25,18 @@
     $statement -> execute([':idx' => $idx]);
     $writer = $statement -> fetchAll();
 
-    // 삭제 요청을 한 사람과 글의 작성자가 같은 유저인지 비교 후 삭제
+    // 삭제 요청을 한 사람과 글의 작성자가 같은 유저인지 비교 후 삭제 + 그 글의 댓글 까지 모두 삭제
     if($writer[0][0] === $_SESSION['id']){
         $sql = 'DELETE FROM list WHERE idx = :idx';
         $statement = $pdo -> prepare($sql);
         $statement -> execute([':idx' => $idx]);
+
+        $sql = 'DELETE FROM comment WHERE article_idx = :article_idx';
+        $statement = $pdo -> prepare($sql);
+        $statement -> execute([':article_idx' => $idx]);
+
+
+
         header('Location: ./list.php?deleteSuccess');
         exit;
         

@@ -27,7 +27,17 @@
     // 없는 글을 불러오려하는 경우 차단 (뒤로가기 막기 기능이 안돼서 추가한 기능임.)
     if(empty($article)){
         header('Location: ./list.php?nonexistArticle');
+        exit;
     }
+
+    // 댓글 불러오기
+    $sql = 'SELECT * FROM comment WHERE article_idx = :idx';
+    $statement = $pdo -> prepare($sql);
+    $statement -> execute([':idx' => $idx]);
+    $comments = $statement -> fetchAll();
+
+    
+
 ?>
 
 <!DOCTYPE html>
@@ -48,14 +58,63 @@
             top: 1em;
             right: 6em;
         }
+        .comment-box {
+            background-color: whitesmoke;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            padding: 5px;    
+        }
+        .comment-info{
+            padding-bottom: 10px;
+        }
+
+        .comment-box pre{
+            margin : 0;
+        }
     </style>
 </head>
 <body>
-<?php  
+    <?php  
       if(isset($_GET['noAuthority'])){
     ?>
         <script>
             alert('이 글에 대한 권한이 없습니다.')
+        </script>
+    <?php
+      }
+    ?>
+    <?php  
+      if(isset($_GET['commentEmptyError'])){
+    ?>
+        <script>
+            alert('댓글을 입력해주세요.');
+        </script>
+    <?php
+      }
+    ?>
+    <?php  
+      if(isset($_GET['commentSuccess'])){
+    ?>
+        <script>
+            alert('댓글이 등록되었습니다.');
+        </script>
+    <?php
+      }
+    ?>
+    <?php  
+      if(isset($_GET['commentNoAuthority'])){
+    ?>
+        <script>
+            alert('이 댓글에 대한 권한이 없습니다.');
+        </script>
+    <?php
+      }
+    ?>
+    <?php  
+      if(isset($_GET['commentdeletesuccess'])){
+    ?>
+        <script>
+            alert('댓글이 성공적으로 삭제되었습니다.');
         </script>
     <?php
       }
@@ -72,11 +131,30 @@
         echo "<img src=./upload/$image>";
       }
     ?>
-    <p><?php echo $article[0]['content']?></p>
+    <p><?php echo "<pre>{$article[0]['content']}</pre>"?></p>
     <?php echo "<button onclick=\"location.href='delete.php?idx=$idx'\">삭제</button>"?>
-    <?php echo "<button onclick=\"location.href='edit.php?idx=$idx'\">수정</button>"?>
-    
-    
-
+    <?php echo "<button onclick=\"location.href='edit.php?idx=$idx'\">수정</button>"?><br><br>
+    <h4>댓글목록</h4>
+    <form action="./comment.php" method="POST">
+        <input type="hidden" name="articleIdx" value=<?php echo $idx?>>
+        <textarea name="comment" rows="5" cols="50" placeholder="댓글 작성"></textarea>
+        <input type="submit" value="등록">
+    </form>
+    <br>
+    <?php
+        if(!empty($comments)){
+            foreach($comments as $comment){
+                echo "<div class=\"comment-box\">";
+                echo "<div class=\"comment-info\">";
+                echo "<span><b>{$comment['comment_writer']}</b>  </span>";
+                echo "<span>{$comment['comment_date']}  </span>";
+                echo "<span><button onclick=\"location.href='./commentdelete.php?comment_idx={$comment['comment_idx']}'\">삭제</button></span>";
+                echo "</div>";   
+                echo "<pre>{$comment['comment']}</pre>";
+                echo "</div>";
+                
+            }
+        }       
+    ?>
 </body>
 </html>
