@@ -6,7 +6,6 @@
         exit;
     }
 
-
     // 데이터베이스 연결
     require 'dbconfig.php';
     $dsn = "mysql:host=$host;dbname=$db;charset=UTF8";
@@ -29,7 +28,6 @@
         exit; 
     }
 
-    
     // 아이디 중복 검사
     $sql = 'SELECT id FROM members WHERE id = :id';
 
@@ -41,7 +39,6 @@
         header('Location: ./signup.php?sameIdError');
         exit;
     }
-
 
     // 데이터베이스에 신규 회원 데이터 저장
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // 데이터베이스에 저장 전 비밀번호 암호화
@@ -55,7 +52,6 @@
     ]);
 
     header('Location: ./signupsuccess.html');
-
 
 ?>
 

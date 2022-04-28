@@ -26,6 +26,7 @@
     $comment = $statement -> fetchAll();
     $articleIdx = $comment[0]['article_idx'];
 
+    // 삭제 요청한 유저와 댓글 작성자가 같은지 비교
     if($comment[0]['comment_writer'] !== $_SESSION['id']){
         header("Location: ./article.php?idx=$articleIdx&commentNoAuthority");
         exit;

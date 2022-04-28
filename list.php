@@ -98,7 +98,7 @@
       }
     ?>
 
-    <h1>자유게시판</h1>
+    <h1>모든게시판</h1>
     <a class="logout" href="logout.php">로그 아웃</a>
     <h2><?php echo $_SESSION['id']?>님 환영합니다.</h2>
     <a href="./write.php">글 쓰기</a>
@@ -127,6 +127,8 @@
           <th>작성자</th>
           <th>게시글 유형</th>
           <th>생성 및 수정 날짜</th>
+          <th>조회수</th>
+          <th>추천 수</th>
         </tr>";
 
         // 글 목록 데이터베이스에 있는 글 정보 하나씩 가져와서 화면에 띄우기
@@ -137,6 +139,8 @@
               <td>{$article['writer']}</td>
               <td>{$article['type']}</td>
               <td>{$article['date']}</td>
+              <td>{$article['views']}</td>
+              <td>{$article['likes']}</td>
             </tr>";
         }
         echo "</table>";

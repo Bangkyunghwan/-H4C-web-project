@@ -23,6 +23,20 @@
     $statement = $pdo -> prepare($sql);
     $statement -> execute([':idx' => $idx]);
     $article = $statement -> fetchAll();
+
+    //해당 게시글의 조회수 증가시키기
+    if(!isset($_COOKIE["article_$idx"])){
+        setcookie("article_$idx", $idx, time() + 60*60);
+        $sql = "UPDATE list SET views = views + 1 WHERE idx=:idx";
+        $statement = $pdo->prepare($sql);
+        $statement->execute([
+            'idx' => $idx,
+        ]);
+    }
+
+
+    
+
     
     // 없는 글을 불러오려하는 경우 차단 (뒤로가기 막기 기능이 안돼서 추가한 기능임.)
     if(empty($article)){
@@ -35,9 +49,6 @@
     $statement = $pdo -> prepare($sql);
     $statement -> execute([':idx' => $idx]);
     $comments = $statement -> fetchAll();
-
-    
-
 ?>
 
 <!DOCTYPE html>
@@ -119,6 +130,41 @@
     <?php
       }
     ?>
+    <?php  
+      if(isset($_GET['likeAlready'])){
+    ?>
+        <script>
+            alert('이미 추천한 게시글 입니다.');
+        </script>
+    <?php
+      }
+    ?>
+    <?php  
+      if(isset($_GET['likeSuccess'])){
+    ?>
+        <script>
+            alert('이 게시글을 추천 하였습니다.');
+        </script>
+    <?php
+      }
+    ?>
+    <?php  
+      if(isset($_GET['likeDeleteSuccess'])){
+    ?>
+        <script>
+            alert('추천을 취소했습니다.');
+        </script>
+    <?php
+      }
+    ?><?php  
+    if(isset($_GET['noLike'])){
+  ?>
+      <script>
+          alert('추천 하지 않은 게시글 입니다.');
+      </script>
+  <?php
+    }
+  ?>
     <h2><?php echo $article[0]['title']?></h2>
     <a class="logout" href="logout.php">로그 아웃</a>
     <a class="goList" href="./list.php">게시판으로 돌아가기</a>
@@ -134,6 +180,15 @@
     <p><?php echo "<pre>{$article[0]['content']}</pre>"?></p>
     <?php echo "<button onclick=\"location.href='delete.php?idx=$idx'\">삭제</button>"?>
     <?php echo "<button onclick=\"location.href='edit.php?idx=$idx'\">수정</button>"?><br><br>
+
+    <?php echo "<button onclick=\"location.href='like.php?idx=$idx'\">글 추천</button>"?>
+    <?php echo "<button onclick=\"location.href='likedelete.php?idx=$idx'\">추천 취소</button>"?>
+
+
+
+
+
+    
     <h4>댓글목록</h4>
     <form action="./comment.php" method="POST">
         <input type="hidden" name="articleIdx" value=<?php echo $idx?>>
@@ -141,6 +196,11 @@
         <input type="submit" value="등록">
     </form>
     <br>
+
+
+
+
+
     <?php
         if(!empty($comments)){
             foreach($comments as $comment){

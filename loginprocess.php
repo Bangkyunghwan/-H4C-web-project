@@ -17,7 +17,7 @@
     }
 
 
-    // 아이디 중복 검사
+    // 로그인 검사
     $sql = 'SELECT id, password FROM members WHERE id = :id';
     $id = $_POST['id'];
     $password = $_POST['password'];

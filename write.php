@@ -19,6 +19,11 @@
             top: 1em;
             right: 1em;
         }
+        .goList{
+            position: fixed;
+            top: 1em;
+            right: 6em;
+        }
     </style>
 </head>
 <body>
@@ -63,6 +68,6 @@
         </p>     
         <input type="submit" value="글 게시하기">
     </form>
-    <a href="./list.php">게시판으로 돌아가기</a>
+    <a class="goList" href="./list.php">게시판으로 돌아가기</a>
 </body>
 </html>
