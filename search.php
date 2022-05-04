@@ -58,6 +58,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+
+        #flex-container{
+            height: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }  
+
+        h1{
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        #welcome{
+            font-size: 0.7rem;
+        }
+
         table{
             width: 70%;
             border-spacing: 0 20px;
@@ -88,37 +105,43 @@
         .goList{
             position: fixed;
             top: 1em;
-            right: 6em;
+            right: 7em;
         }
 
-    
+        a{
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
         
     </style>
 </head>
 <body>
-    
-    <h1>검색 결과</h1>
-    <a class="logout" href="logout.php">로그 아웃</a>
-    <a class="goList" href="./list.php">게시판으로 돌아가기</a>
-    <?php 
-        echo "<table>
-        <tr>
-          <th>게시글 번호</th>
-          <th>제목</th>
-          <th>작성자</th>
-          <th>게시글 유형</th>
-          <th>생성 및 수정 날짜</th>
-        </tr>";
-
-        // 글 목록 데이터베이스에 있는 글 정보 하나씩 가져와서 화면에 띄우기
-        foreach($list as $article){            
-            echo "<tr class=\"content\" onClick=\"location.href='./article.php?idx={$article['idx']}'\">
-              <td>{$article['idx']}</td>
-              <td>{$article['title']}</td>
-              <td>{$article['writer']}</td>
-              <td>{$article['type']}</td>
-              <td>{$article['date']}</td>
+    <div id="flex-container">
+        <div id="welcome"><?php echo $_SESSION['id']?>님 환영합니다.</div>
+        <h1>검색 결과</h1>
+        <a class="logout" href="logout.php">로그 아웃</a>
+        <a class="goList" href="./list.php">게시판으로 돌아가기</a>
+        <?php 
+            echo "<table>
+            <tr>
+            <th>게시글 번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>게시글 유형</th>
+            <th>생성 및 수정 날짜</th>
             </tr>";
-        }
-        echo "</table>";
-    ?>
+
+            // 글 목록 데이터베이스에 있는 글 정보 하나씩 가져와서 화면에 띄우기
+            foreach($list as $article){            
+                echo "<tr class=\"content\" onClick=\"location.href='./article.php?idx={$article['idx']}'\">
+                <td>{$article['idx']}</td>
+                <td>{$article['title']}</td>
+                <td>{$article['writer']}</td>
+                <td>{$article['type']}</td>
+                <td>{$article['date']}</td>
+                </tr>";
+            }
+            echo "</table>";
+        ?>
+    </div>
+</body>

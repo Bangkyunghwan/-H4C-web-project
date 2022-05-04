@@ -36,10 +36,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        
+        #flex-container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+           
+        }  
+
+        input[name]{
+            width: 300px;
+            height: 25px;
+        }
+        select{
+            width: 100px;
+            height: 25px;
+        }
+        
+        h1{
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
         table{
             width: 70%;
             border-spacing: 0 20px;
-
         }
         th{
             border-bottom: 1px solid black;
@@ -58,18 +78,29 @@
         .content:hover{
             text-decoration: underline;
         }
+
         .logout{
             position: fixed;
             top: 1em;
             right: 1em;
         }
-
+        #write{
+            position: fixed;
+            top: 1em;
+            right: 6em;
+        }
+        a{
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+        #welcome{
+            font-size: 0.7rem;
+        }
     
         
     </style>
 </head>
 <body>
-    
     <?php  
       if(isset($_GET['deleteSuccess'])){
     ?>
@@ -97,11 +128,12 @@
     <?php
       }
     ?>
+    <a class="logout" href="logout.php">로그아웃</a>
 
+    <div id="flex-container">
+    <div id="welcome"><?php echo $_SESSION['id']?>님 환영합니다.</div>
     <h1>모든게시판</h1>
-    <a class="logout" href="logout.php">로그 아웃</a>
-    <h2><?php echo $_SESSION['id']?>님 환영합니다.</h2>
-    <a href="./write.php">글 쓰기</a>
+    <a href="./write.php" id="write">글 쓰기</a>
     <form action="search.php">
         <select name="type">
             <option value="모든">모든게시판</option>
@@ -117,8 +149,6 @@
         <input type="search" name="search">
          <input type="submit" value="검색">
     </form>
-    
-
     <?php 
         echo "<table>
         <tr>
@@ -145,6 +175,6 @@
         }
         echo "</table>";
     ?>
-
+    </div>
 </body>
 </html>

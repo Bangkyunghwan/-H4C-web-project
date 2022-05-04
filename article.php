@@ -59,6 +59,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        a{
+            text-decoration: none;
+            font-size: 0.73rem;
+        }
         .logout{
             position: fixed;
             top: 1em;
@@ -82,6 +86,13 @@
         .comment-box pre{
             margin : 0;
         }
+        button{
+          width: 56px;
+          height: 25px;
+          font-size: 7px;
+        }
+
+        
     </style>
 </head>
 <body>
@@ -165,11 +176,15 @@
   <?php
     }
   ?>
+    
     <h2><?php echo $article[0]['title']?></h2>
     <a class="logout" href="logout.php">로그 아웃</a>
     <a class="goList" href="./list.php">게시판으로 돌아가기</a>
-    <span><?php echo $article[0]['writer']?></span>
-    <span><?php echo $article[0]['date']?></span><hr>
+    <span><b><?php echo $article[0]['writer']?></b></span>
+    <span><?php echo $article[0]['date']?></span>
+    <?php echo "<button onclick=\"location.href='delete.php?idx=$idx'\">글 삭제</button>"?>
+    <?php echo "<button onclick=\"location.href='edit.php?idx=$idx'\">글 수정</button>"?>
+    <hr>
     <?php  
       if(!empty($article[0]['image'])){
         $imagePathArray = explode('\\', $article[0]['image']);
@@ -177,12 +192,11 @@
         echo "<img src=./upload/$image>";
       }
     ?>
-    <p><?php echo "<pre>{$article[0]['content']}</pre>"?></p>
-    <?php echo "<button onclick=\"location.href='delete.php?idx=$idx'\">삭제</button>"?>
-    <?php echo "<button onclick=\"location.href='edit.php?idx=$idx'\">수정</button>"?><br><br>
+    <p><?php echo "<pre>{$article[0]['content']}</pre>"?></p><br><br><br>
+    
 
     <?php echo "<button onclick=\"location.href='like.php?idx=$idx'\">글 추천</button>"?>
-    <?php echo "<button onclick=\"location.href='likedelete.php?idx=$idx'\">추천 취소</button>"?>
+    <?php echo "<button onclick=\"location.href='likedelete.php?idx=$idx'\">추천취소</button>"?>
 
 
 
@@ -216,5 +230,6 @@
             }
         }       
     ?>
+    
 </body>
 </html>

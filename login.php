@@ -6,11 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+       
+      #flex-container{
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+      }  
+
         input[name]{
-            width: 250px;
-            height: 20px;
-            font-size: 0.6rem;
+            width: 400px;
+            height: 35px;
+            font-size: 0.8rem;
+            border: 1px solid;
         }
+
+        input[name="id"]{
+          border-bottom: none;
+        }
+
+        input[type="password"]{
+          margin-bottom: 20px;
+        }
+
+        [type="submit"] {
+          width : 100%;
+          height: 35px;
+          margin-bottom: 15px;
+          
+        }
+
+        a{
+          text-decoration: none;
+          font-size: 0.7rem
+        }
+    
+        
     </style>
 </head>
 <body>
@@ -59,16 +92,14 @@
     <?php
       }
     ?>
-    <h1>로그인 페이지</h1>
-    <form action="./loginprocess.php" method="POST">
-        <label>
-            아이디 : <input type="text" name="id"><br>
-        </label>
-        <label>
-            비밀번호 : <input type="password" name="password"><br>
-        </label>
-        <input type="submit" value="로그인">
-    </form>
-    <a href='signup.php'>회원가입 하러가기</a>
+    <div id="flex-container">
+      <h1>로그인</h1>
+      <form action="./loginprocess.php" method="POST">
+          <input type="text" name="id" placeholder="아이디"><br>
+          <input type="password" name="password" placeholder="비밀번호"><br>
+          <input type="submit" value="로그인">
+      </form>
+      <a href='signup.php'>회원가입</a>
+    </div>
 </body>
 </html>
