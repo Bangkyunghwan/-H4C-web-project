@@ -4,6 +4,17 @@
         header('Location: ./login.php?notLogin');
         exit;
     }
+
+     //csrf 방어를 위한 referer 검사 코드
+     $referer = getenv("HTTP_REFERER");
+     $host = getenv("HTTP_HOST");
+     $parsedReferer = parse_url($referer);
+     $refererHost = $parsedReferer['host'];
+ 
+     if($refererHost !== $host){
+         echo "외부에서의 요청 차단합니다.";
+         exit;
+     }
     
 
     // 댓글이 달린 글 인덱스 번호, 댓글을 쓴 유저 아이디, 댓글 받아오기

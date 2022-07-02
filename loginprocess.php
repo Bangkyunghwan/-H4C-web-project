@@ -30,10 +30,12 @@
         if(password_verify($password, $memberData[0]['password'])){
             session_start();
             $_SESSION['id'] = $memberData[0]['id'];
+            sleep(rand(1,3));     // 브루트 포스 공격 방지
             header('Location: ./list.php');
             exit;
         }else{
             header('Location: ./login.php?wrongPassword');
+            sleep(rand(1,3));    // 브루트 포스 공격 방지
             exit;
         }
     }else{

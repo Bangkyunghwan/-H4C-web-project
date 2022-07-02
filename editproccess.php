@@ -11,13 +11,24 @@
         exit;
     }
 
+     //csrf 방어를 위한 referer 검사 코드
+     $referer = getenv("HTTP_REFERER");
+     $host = getenv("HTTP_HOST");
+     $parsedReferer = parse_url($referer);
+     $refererHost = $parsedReferer['host'];
+ 
+     if($refererHost !== $host){
+         echo "외부에서의 요청 차단합니다.";
+         exit;
+     }
+
     // 업로드된 파일이 있는 지 확인후 파일 처리 과정
     if(!empty($_FILES['image']['name'])){
         $name = basename($_FILES['image']['name']);
 
         $fileArray = explode('.', $name);
         $ext = end($fileArray);
-        $newFileName = date(time()).'.'.$ext;
+        $newFileName = md5(rand()).'.'.$ext;
 
         $imageExt = ['png', 'jpg', 'jpeg', 'gif', 'PNG', "JPG", 'JPEG', 'GIF'];
 

@@ -5,8 +5,20 @@
         exit;
     }
     
+     //csrf 방어를 위한 referer 검사 코드
+     $referer = getenv("HTTP_REFERER");
+     $host = getenv("HTTP_HOST");
+     $parsedReferer = parse_url($referer);
+     $refererHost = $parsedReferer['host'];
+ 
+     if($refererHost !== $host){
+         echo "외부에서의 요청 차단합니다.";
+         exit;
+     }
+
     $articleIdx = $_GET['idx'];
     $userId = $_SESSION['id'];
+
 
     // 데이터베이스 연결
     require 'dbconfig.php';

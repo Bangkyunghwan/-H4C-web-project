@@ -5,10 +5,21 @@
         exit;
     }
 
+    //csrf 방어를 위한 referer 검사 코드
+    $referer = getenv("HTTP_REFERER");
+    $host = getenv("HTTP_HOST");
+    $parsedReferer = parse_url($referer);
+    $refererHost = $parsedReferer['host'];
+
+    if($refererHost !== $host){
+        echo "외부에서의 요청 차단합니다.";
+        exit;
+    }
+
     // 데이터베이스에 저장할 데이터들 
     $title = htmlspecialchars($_POST['title']);
     $content = htmlspecialchars($_POST['content']);
-    $writer = htmlspecialchars($_SESSION['id']);
+    $writer = $_SESSION['id'];
     $date = date('Y-m-d H:i:s');
     $type = $_POST['type'];
 
@@ -25,7 +36,7 @@
 
         $fileArray = explode('.', $name);
         $ext = end($fileArray);
-        $newFileName = date(time()).'.'.$ext;
+        $newFileName = md5(rand()).'.'.$ext;
 
         $imageExt = ['png', 'jpg', 'jpeg', 'gif', 'PNG', "JPG", 'JPEG', 'GIF'];
 
